@@ -8,7 +8,7 @@ public class UserMain {
     UserDao dao = new UserDao();
 
     User user = new User();
-    user.setId("whiteship");
+    user.setId("whiteship2");
     user.setName("백기선");
     user.setPassword("married");
 
