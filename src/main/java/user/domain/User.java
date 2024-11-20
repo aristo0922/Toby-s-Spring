@@ -1,19 +1,20 @@
 package user.domain;
 
 public class User {
+
   String id;
   String name;
   String password;
 
-  public String getId(){
+  public String getId() {
     return id;
   }
 
-  public String getName(){
+  public String getName() {
     return name;
   }
 
-  public String getPassword(){
+  public String getPassword() {
     return password;
   }
 
