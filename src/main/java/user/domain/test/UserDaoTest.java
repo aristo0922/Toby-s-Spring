@@ -1,6 +1,8 @@
-package user.domain;
+package user.domain.test;
 
 import java.sql.SQLException;
+import user.domain.DaoFactory;
+import user.domain.UserDao;
 import user.domain.connectionMaker.ConnectionMaker;
 import user.domain.connectionMaker.DConnectionMaker;
 
