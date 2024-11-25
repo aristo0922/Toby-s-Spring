@@ -1,9 +1,9 @@
-package user.domain;
+package user.domain.connectionMaker;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class DConnectionMaker implements ConnectionMaker{
+public class DConnectionMaker implements ConnectionMaker {
 
   @Override
   public Connection makeConnection() throws ClassNotFoundException, SQLException {

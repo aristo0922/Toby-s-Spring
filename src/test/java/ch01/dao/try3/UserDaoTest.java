@@ -1,10 +1,9 @@
 package ch01.dao.try3;
 
-import ch01.dao.try2.ConnectionMaker;
-import ch01.dao.try2.DConnectionMaker;
-import ch01.dao.try2.UserDao;
-
 import java.sql.SQLException;
+import user.domain.UserDao;
+import user.domain.connectionMaker.ConnectionMaker;
+import user.domain.connectionMaker.DConnectionMaker;
 
 import static org.junit.jupiter.api.Assertions.*;
 
