@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
 import user.domain.connectionMaker.ConnectionMaker;
 
 public class UserDao {
@@ -15,8 +16,8 @@ public class UserDao {
     this.connectionMaker = connectionMaker;
   }
 
-  public UserDao(){
-    AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
+  public void setConnectionMaker(ConnectionMaker connectionMaker) {
+    this.connectionMaker = connectionMaker;
   }
 
   public void add(User user) throws ClassNotFoundException, SQLException {
