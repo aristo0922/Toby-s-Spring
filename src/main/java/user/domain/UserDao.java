@@ -4,12 +4,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class UserDao {
+
   private ConnectionMaker connectionMaker;
 
-  public UserDao(ConnectionMaker connectionMaker){
-    connectionMaker = connectionMaker                                                                                                                    ;
+  public UserDao(ConnectionMaker connectionMaker) {
+    this.connectionMaker = connectionMaker;
+  }
+
+  public UserDao(){
+    AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
   }
 
   public void add(User user) throws ClassNotFoundException, SQLException {
@@ -28,7 +34,7 @@ public class UserDao {
     c.close();
   }
 
-  public User get(String id) throws ClassNotFoundException, SQLException{
+  public User get(String id) throws ClassNotFoundException, SQLException {
     Connection c = connectionMaker.makeConnection();
     PreparedStatement ps = c.prepareStatement(
         "select * from users where id = ?"

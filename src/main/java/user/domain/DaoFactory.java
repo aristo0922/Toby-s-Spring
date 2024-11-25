@@ -1,7 +1,5 @@
 package user.domain;
 
-import java.sql.SQLException;
-
 public class DaoFactory {
 
   public UserDao userDao(){

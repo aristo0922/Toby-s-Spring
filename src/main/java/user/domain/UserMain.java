@@ -5,7 +5,9 @@ import java.sql.SQLException;
 public class UserMain {
 
   public static void main(String[] args) throws ClassNotFoundException, SQLException {
-    UserDao dao = new NUserDao();
+    ConnectionMaker connectionMaker = new DConnectionMaker();
+
+    UserDao dao = new DaoFactory().userDao();
 
     User user = new User();
     user.setId("whiteship");
