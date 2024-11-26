@@ -1,9 +1,7 @@
 package user.domain;
 
-import java.sql.Connection;
 import org.springframework.context.annotation.Bean;
 import user.domain.connectionMaker.ConnectionMaker;
-import user.domain.connectionMaker.CountingConnectionMaker;
 import user.domain.connectionMaker.DConnectionMaker;
 
 public class DaoFactory {
