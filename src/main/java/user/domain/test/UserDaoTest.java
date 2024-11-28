@@ -2,7 +2,7 @@ package user.domain.test;
 
 import java.sql.SQLException;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import user.domain.DaoFactory;
@@ -18,7 +18,7 @@ public class UserDaoTest {
     UserDao dao = context.getBean("userDao", UserDao.class);
 
     User user = new User();
-    user.setId("hello");
+    user.setId("hello12");
     user.setName("XH");
     user.setPassword("Villains");
 
