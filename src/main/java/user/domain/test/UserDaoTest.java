@@ -17,12 +17,15 @@ public class UserDaoTest {
 
     UserDao dao = context.getBean("userDao", UserDao.class);
 
+    dao.deleteAll();
+    Assertions.assertEquals(dao.getCount(), 0);
+
     User user = new User();
     user.setId("hello12");
     user.setName("XH");
     user.setPassword("Villains");
-
     dao.add(user);
+    Assertions.assertEquals(dao.getCount(), 1);
 
     User user2 = dao.get(user.getId());
 
