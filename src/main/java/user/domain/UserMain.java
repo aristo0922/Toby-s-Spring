@@ -1,19 +1,14 @@
 package user.domain;
 
 import java.sql.SQLException;
-import user.domain.connectionMaker.ConnectionMaker;
-import user.domain.connectionMaker.CountingConnectionMaker;
-import user.domain.connectionMaker.DConnectionMaker;
 
 public class UserMain {
 
   public static void main(String[] args) throws ClassNotFoundException, SQLException {
-    ConnectionMaker connectionMaker = new CountingConnectionMaker(new DConnectionMaker());
-
     UserDao dao = new DaoFactory().userDao();
 
     User user = new User();
-    user.setId("whiteship");
+    user.setId("whip123");
     user.setName("백기선");
     user.setPassword("married");
 

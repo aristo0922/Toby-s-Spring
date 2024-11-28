@@ -7,10 +7,6 @@ import user.domain.connectionMaker.ConnectionMaker;
 
 public class DUserDao extends UserDao{
 
-  public DUserDao(ConnectionMaker connectionMaker) {
-    super(connectionMaker);
-  }
-
   public Connection getConnection() throws ClassNotFoundException, SQLException {
     // D 사에서 사용하는 DB connection 생성 코드
     Class.forName("com.mysql.cj.jdbc.Driver");

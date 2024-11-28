@@ -10,9 +10,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserDaoTest {
     public static void main(String[] args) throws ClassNotFoundException,
             SQLException{
-        ConnectionMaker connectionMaker = new DConnectionMaker();
+//        ConnectionMaker connectionMaker = new DConnectionMaker();
         // connectionMaker 와 DAO 의 책임을 클라이언트한테 전가.
-        UserDao dao = new UserDao(connectionMaker);
+        UserDao dao = new UserDao();
     }
 
 }
