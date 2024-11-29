@@ -4,20 +4,27 @@ import java.sql.SQLException;
 import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import user.domain.DaoFactory;
 import user.domain.User;
 import user.domain.UserDao;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes={DaoFactory.class})
 public class UserDaoTest {
   private UserDao dao;
 
+  @Autowired
+  private ApplicationContext context;
+
   @Before
   public void setup(){
-    ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
-    this.dao = context.getBean("userDao", UserDao.class);
+    this.dao = this.context.getBean("userDao", UserDao.class);
   }
 
   @Test
