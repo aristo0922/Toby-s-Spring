@@ -1,6 +1,7 @@
 package user.domain.test;
 
 import java.sql.SQLException;
+import javax.sql.DataSource;
 import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
@@ -8,15 +9,20 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.datasource.SingleConnectionDataSource;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import user.domain.DaoFactory;
+import user.domain.DaoForTest;
 import user.domain.User;
 import user.domain.UserDao;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes={DaoFactory.class})
+@ContextConfiguration(classes={DaoForTest.class})
+@DirtiesContext
 public class UserDaoTest {
+  @Autowired
   private UserDao dao;
 
   @Autowired
@@ -24,7 +30,8 @@ public class UserDaoTest {
 
   @Before
   public void setup(){
-    this.dao = this.context.getBean("userDao", UserDao.class);
+//    DataSource dataSource = new SingleConnectionDataSource("jdbc:mysql://localhost/testdb", "root", "0000", true);
+//    dao.setDataSource(dataSource);
   }
 
   @Test
