@@ -8,8 +8,10 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.dao.EmptyResultDataAccessException;
+import user.domain.strategy.DeleteAllStatement;
+import user.domain.strategy.StatementStrategy;
 
-public class UserDao {
+public class UserDao extends makeStatement {
 
   @Autowired
   private DataSource dataSource;
@@ -74,7 +76,8 @@ public class UserDao {
 
     try {
       c = dataSource.getConnection();
-      ps = c.prepareStatement("delete from users");
+      StatementStrategy strategy = new DeleteAllStatement();
+      ps = strategy.makePreparedStatement(c);
       ps.executeUpdate();
     } catch (SQLException e) {
       throw e;
@@ -133,5 +136,10 @@ public class UserDao {
         }
       }
     }
+  }
+
+  @Override
+  protected PreparedStatement makeStatement(Connection c) throws SQLException {
+    return null;
   }
 }
