@@ -10,17 +10,26 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.springframework:spring-test:6.1.6'
-    implementation 'org.springframework:spring-test:6.1.6'
-    implementation 'junit:junit:4.13.2'
-
+    // Spring Core 및 Context 의존성
+    implementation 'org.springframework:spring-context:5.3.29'
+    implementation 'org.springframework:spring-jdbc:5.3.29'
+    implementation 'junit:junit:4.13.1'
     implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
-    implementation 'org.junit.jupiter:junit-jupiter:4.13.2'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-    implementation 'org.springframework:spring-context:6.1.6'
-    implementation 'com.mysql:mysql-connector-j:8.0.33'
-    implementation 'org.springframework:spring-jdbc:6.1.12'
+
+    // JUnit4 의존성
+    testImplementation 'junit:junit:4.13.2'
+
+    // Spring Test 의존성 (JUnit4 지원)
+    testImplementation 'org.springframework:spring-test:5.3.29'
+    implementation 'org.springframework:spring-test:5.3.29'
+    compileOnly 'org.springframework:spring-test:5.3.29'
+
+    // MySQL JDBC 드라이버
+    implementation 'mysql:mysql-connector-java:8.0.33'
+
+    // Optional: Lombok (if you are using Lombok in your project)
+    compileOnly 'org.projectlombok:lombok:1.18.28'
+    annotationProcessor 'org.projectlombok:lombok:1.18.28'
 }
 
 test {
