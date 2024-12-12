@@ -9,12 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import user.domain.User;
 import user.domain.UserDao;
-import user.domain.connectionMaker.ConnectionMaker;
-import user.domain.connectionMaker.DConnectionMaker;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 class UserDaoTest {
