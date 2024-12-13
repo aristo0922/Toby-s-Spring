@@ -1,33 +1,45 @@
 package ch01.dao.try3;
 
-import java.sql.SQLException;
-import javax.sql.DataSource;
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import user.domain.DaoForTest;
 import user.domain.UserDao;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-class UserDaoTest {
-    UserDao dao;
+import javax.sql.DataSource;
+import java.sql.SQLException;
 
-    @Before
-    public void setUp(){
-        this.dao = new UserDao();
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {DaoForTest.class})
+@DirtiesContext
+public class UserDaoTest {
+    @Autowired
+    private ApplicationContext context;
 
+    @Autowired
+    private UserDao dao;
+
+    @BeforeEach
+    public void setUp() {
         DataSource dataSource = new SingleConnectionDataSource("jdbc:mysql://localhost/testdb", "root", "0000", true);
         dao.setDataSource(dataSource);
+        System.out.println("setup");
     }
 
-    @Test(expected = EmptyResultDataAccessException.class)
-    public void getUserFailure() throws SQLException, ClassNotFoundException {
+    @Test
+    public void getUserFailure() throws SQLException {
         dao.deleteAll();
         Assertions.assertEquals(dao.getCount(), 0);
 
-        dao.get("unknown_id");
+        Assertions.assertThrows(EmptyResultDataAccessException.class, () -> dao.get("unknown_id"));
     }
 }
+
