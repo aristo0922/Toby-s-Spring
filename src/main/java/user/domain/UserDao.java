@@ -11,20 +11,29 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import user.domain.strategy.DeleteAllStatement;
 import user.domain.strategy.StatementStrategy;
 
-public class UserDao extends makeStatement {
+public abstract class UserDao {
 
   @Autowired
   private DataSource dataSource;
 
-  @Bean
-  public UserDao userDao() {
-    UserDao userDao = new UserDao();
-    userDao.setDataSource(dataSource);
-    return userDao;
-  }
-
   public void setDataSource(DataSource dataSource) {
     this.dataSource = dataSource;
+  }
+
+  public void jdbcContextWithStatementStrategy(StatementStrategy strategy) throws SQLException{
+    Connection c = null;
+    PreparedStatement ps = null;
+
+    try{
+      c = dataSource.getConnection();
+      ps = strategy.makePreparedStatement(c);
+      ps.executeUpdate();
+    } catch (SQLException e){
+      throw e;
+    }finally {
+      if (ps!= null) { try {ps.close();} catch (SQLException e){}}
+      if (c != null) { try { c.close();} catch (SQLException e){}}
+    }
   }
 
   public void add(User user) throws ClassNotFoundException, SQLException {
@@ -76,8 +85,8 @@ public class UserDao extends makeStatement {
 
     try {
       c = dataSource.getConnection();
-      StatementStrategy strategy = new DeleteAllStatement();
-      ps = strategy.makePreparedStatement(c);
+      StatementStrategy strategy = new DeleteAllStatement(); // setStrategy
+      ps = strategy.makePreparedStatement(c); // do Something
       ps.executeUpdate();
     } catch (SQLException e) {
       throw e;
@@ -89,10 +98,10 @@ public class UserDao extends makeStatement {
 
         }
       }
-      if (c != null){
-        try{
+      if (c != null) {
+        try {
           c.close();
-        } catch (SQLException e){
+        } catch (SQLException e) {
 
         }
       }
@@ -104,42 +113,39 @@ public class UserDao extends makeStatement {
     PreparedStatement ps = null;
     ResultSet rs = null;
 
-    try{
+    try {
       c = dataSource.getConnection();
       ps = c.prepareStatement("select count(*) from users");
 
       rs = ps.executeQuery();
       rs.next();
       return rs.getInt(1);
-    }catch(SQLException e){
+    } catch (SQLException e) {
       throw e;
     } finally {
-      if ( rs != null ){
-        try{
+      if (rs != null) {
+        try {
           rs.close();
-        } catch (SQLException e){
+        } catch (SQLException e) {
 
         }
       }
-      if (ps != null ){
-        try{
+      if (ps != null) {
+        try {
           ps.close();
-        } catch (SQLException e){
+        } catch (SQLException e) {
 
         }
       }
-      if (c != null){
-        try{
+      if (c != null) {
+        try {
           c.close();
-        } catch (SQLException e){
+        } catch (SQLException e) {
 
         }
       }
     }
   }
 
-  @Override
-  protected PreparedStatement makeStatement(Connection c) throws SQLException {
-    return null;
-  }
+  abstract protected PreparedStatement makeStatement(Connection c) throws SQLException;
 }
