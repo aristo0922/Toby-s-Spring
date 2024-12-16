@@ -1,5 +1,6 @@
 package user.domain;
 
+import com.mysql.cj.x.protobuf.MysqlxPrepare.Prepare;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +9,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.dao.EmptyResultDataAccessException;
+import user.domain.strategy.AddStatement;
 import user.domain.strategy.DeleteAllStatement;
 import user.domain.strategy.StatementStrategy;
 
@@ -36,20 +38,18 @@ public class UserDao {
     }
   }
 
-  public void add(User user) throws ClassNotFoundException, SQLException {
-    Connection c = dataSource.getConnection();
-    PreparedStatement ps = c.prepareStatement(
-        "insert into users(id, name, password) values(?, ?, ?)"
-    );
-
-    ps.setString(1, user.getId());
-    ps.setString(2, user.getName());
-    ps.setString(3, user.getPassword());
-
-    ps.executeUpdate();
-
-    ps.close();
-    c.close();
+  public void add(final User user) throws SQLException {
+    class AddStatement implements StatementStrategy{
+      public PreparedStatement makePreparedStatement(Connection c) throws SQLException{
+        PreparedStatement ps = c.prepareStatement("insert into users(id, name, password) values(?,?,?)");
+        ps.setString(1, user.getId());
+        ps.setString(2, user.getName());
+        ps.setString(3, user.getPassword());
+        return ps;
+      }
+    }
+    StatementStrategy strategy = new AddStatement();
+    jdbcContextWithStatementStrategy(strategy);
   }
 
   public User get(String id) throws ClassNotFoundException, SQLException {

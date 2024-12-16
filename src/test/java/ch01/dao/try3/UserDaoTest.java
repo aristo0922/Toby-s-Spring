@@ -12,6 +12,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import user.domain.DaoForTest;
+import user.domain.User;
 import user.domain.UserDao;
 
 import javax.sql.DataSource;
@@ -40,6 +41,13 @@ public class UserDaoTest {
         Assertions.assertEquals(dao.getCount(), 0);
 
         Assertions.assertThrows(EmptyResultDataAccessException.class, () -> dao.get("unknown_id"));
+    }
+
+    @Test
+    public void createUser() throws SQLException, ClassNotFoundException {
+        dao.deleteAll();
+        User user = new User("1", "user@naver.com", "123456");
+        dao.add(user);
     }
 }
 
