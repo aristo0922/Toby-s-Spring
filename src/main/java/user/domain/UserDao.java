@@ -35,6 +35,7 @@ public class UserDao {
       c = this.dataSource.getConnection();
       ps = strategy.makePreparedStatement(c);
       ps.executeUpdate();
+      System.out.println("execute update prepareStatement");
     }catch(SQLException e){
       throw e;
     }finally{
@@ -90,7 +91,7 @@ public class UserDao {
         new StatementStrategy() {
           @Override
           public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
-            return c.prepareStatement("delete * from users;");
+            return c.prepareStatement("delete from users");
           }
         }
     );
