@@ -11,6 +11,7 @@ import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import user.dao.JdbcContext;
 import user.domain.DaoForTest;
 import user.domain.User;
 import user.domain.UserDao;
@@ -25,26 +26,41 @@ public class UserDaoTest {
     @Autowired
     private ApplicationContext context;
 
+    private DataSource dataSource;
+    private JdbcContext jdbcContext;
+
     @Autowired
     private UserDao dao;
 
     @BeforeEach
     public void setUp() {
-        DataSource dataSource = new SingleConnectionDataSource("jdbc:mysql://localhost/testdb", "root", "0000", true);
+        dataSource = new SingleConnectionDataSource("jdbc:mysql://localhost/testdb", "root", "0000", true);
+        jdbcContext = new JdbcContext();
+
+        jdbcContext.setDataSource(dataSource);
         dao.setDataSource(dataSource);
-        System.out.println("setup");
+        dao.setJdbcContext(jdbcContext);
     }
 
     @Test
-    public void getUserFailure() throws SQLException {
+    public void getUserFailure() throws SQLException, ClassNotFoundException {
+
+        Assertions.assertNotNull(context);
+        Assertions.assertNotNull(dao);
+        Assertions.assertNotNull(dataSource);
+        Assertions.assertNotNull(jdbcContext);
+
         dao.deleteAll();
-        Assertions.assertEquals(dao.getCount(), 0);
+        Assertions.assertEquals(0, dao.getCount());
 
         Assertions.assertThrows(EmptyResultDataAccessException.class, () -> dao.get("unknown_id"));
     }
 
     @Test
     public void createUser() throws SQLException, ClassNotFoundException {
+        Assertions.assertNotNull(context);
+        Assertions.assertNotNull(dao);
+        Assertions.assertNotNull(dataSource);
         dao.deleteAll();
         User user = new User("1", "user@naver.com", "123456");
         dao.add(user);

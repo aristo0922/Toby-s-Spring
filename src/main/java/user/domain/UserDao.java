@@ -1,25 +1,26 @@
 package user.domain;
 
-import com.mysql.cj.x.protobuf.MysqlxPrepare.Prepare;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.sql.DataSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.dao.EmptyResultDataAccessException;
-import user.domain.strategy.AddStatement;
-import user.domain.strategy.DeleteAllStatement;
+import user.dao.JdbcContext;
 import user.domain.strategy.StatementStrategy;
 
 public class UserDao {
 
-  @Autowired
   private DataSource dataSource;
+
+  private JdbcContext jdbcContext;
 
   public void setDataSource(DataSource dataSource) {
     this.dataSource = dataSource;
+  }
+
+  public void setJdbcContext(JdbcContext jdbcContext){
+    this.jdbcContext = jdbcContext;
   }
 
   public void jdbcContextWithStatementStrategy(StatementStrategy strategy) throws SQLException{
@@ -39,7 +40,7 @@ public class UserDao {
   }
 
   public void add(final User user) throws SQLException {
-    jdbcContextWithStatementStrategy(
+    this.jdbcContext.workWithStatementStrategy((
         new StatementStrategy() {
           @Override
           public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
@@ -50,7 +51,7 @@ public class UserDao {
             return ps;
           }
         }
-    );
+        ));
   }
 
   public User get(String id) throws ClassNotFoundException, SQLException {
@@ -81,14 +82,22 @@ public class UserDao {
   }
 
   public void deleteAll() throws SQLException {
-    jdbcContextWithStatementStrategy(
+    this.jdbcContext.workWithStatementStrategy(
         new StatementStrategy() {
           @Override
           public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
-            return c.prepareStatement("delete from users");
+            return c.prepareStatement("delete * from users;");
           }
         }
     );
+//    jdbcContextWithStatementStrategy(
+//        new StatementStrategy() {
+//          @Override
+//          public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
+//            return c.prepareStatement("delete from users");
+//          }
+//        }
+//    );
   }
 
   public int getCount() throws SQLException {
