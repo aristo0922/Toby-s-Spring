@@ -20,8 +20,6 @@ public class UserDao {
   public void setDataSource(DataSource dataSource) {
     this.dataSource = dataSource;
   }
-//  public void setJdbcContext(JdbcContext jdbcContext){ this.jdbcContext = jdbcContext; }
-//
 
   public void setJdbcContext(JdbcContext jdbcContext){
     this.jdbcContext = jdbcContext;
@@ -95,14 +93,6 @@ public class UserDao {
           }
         }
     );
-//    jdbcContextWithStatementStrategy(
-//        new StatementStrategy() {
-//          @Override
-//          public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
-//            return c.prepareStatement("delete from users");
-//          }
-//        }
-//    );
   }
 
   public int getCount() throws SQLException {
@@ -143,6 +133,4 @@ public class UserDao {
       }
     }
   }
-
-//  abstract protected PreparedStatement makeStatement(Connection c) throws SQLException;
 }
