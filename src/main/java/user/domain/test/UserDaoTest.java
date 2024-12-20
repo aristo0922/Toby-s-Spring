@@ -26,10 +26,10 @@ public class UserDaoTest {
   @Autowired
   private ApplicationContext context;
 
-  @Autowired
+//  @Autowired
   private UserDao dao;
 
-  @Autowired
+//  @Autowired
   SimpleDriverDataSource dataSource;
 
   private User user1;
