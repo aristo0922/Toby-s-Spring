@@ -1,5 +1,6 @@
 package ch01.dao.try3;
 
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,7 +41,6 @@ public class UserDaoTest {
         jdbcContext.setDataSource(dataSource);
 
         dao.setDataSource(dataSource);
-//        dao.setJdbcContext(jdbcContext);
     }
 
     @Test
@@ -65,6 +65,17 @@ public class UserDaoTest {
         dao.deleteAll();
         User user = new User("1", "user@naver.com", "123456");
         dao.add(user);
+    }
+
+    @Test
+    public void getAll() throws SQLException {
+        dao.deleteAll();
+        User user1 = new User();
+        dao.add(user1);
+        List<User> users1 = dao.getAll();
+        Assertions.assertEquals(1, user1.size());
+
+
     }
 }
 
