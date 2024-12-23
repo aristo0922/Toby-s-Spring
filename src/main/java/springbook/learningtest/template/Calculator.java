@@ -6,22 +6,6 @@ import java.io.IOException;
 
 public class Calculator {
 
-  public Integer calcSum(String filepath) throws IOException {
-    BufferedReaderCallback sumCallback = new BufferedReaderCallback() {
-      @Override
-      public Integer doSomethingWithReader(BufferedReader br) throws IOException {
-        Integer sum = 0;
-        String line = null;
-        while((line = br.readLine()) != null){
-          sum += Integer.valueOf(line);
-        }
-        return sum;
-      }
-    };
-
-    return fileReadTeamplate(filepath, sumCallback);
-  }
-
   public Integer fileReadTeamplate(String filepath, BufferedReaderCallback callback) throws IOException{
     BufferedReader br = null;
     try{
@@ -41,8 +25,44 @@ public class Calculator {
     }
   }
 
-  public int calcMultiply(String numFilepath) {
+  public Integer lineReadTemplate(String filepath, LineCallback callback, int initVal) throws IOException{
+    BufferedReader br = null;
+    try {
+      br = new BufferedReader(new FileReader(filepath));
+      Integer res = initVal;
+      String line = null;
+      while ((line = br.readLine()) != null){
+        res = callback.doSomethingWithLine(line, res);
+      }
+      return res;
+    }catch (IOException e){ e.printStackTrace(); throw e;}
+    finally {
+      if(br!=null){
+        try {
+          br.close();
+        }catch (IOException e) {
+          System.out.println(e.getMessage());
+        }
+      }
+    }
+  }
 
-    return 0;
+  public Integer calcSum(String filepath) throws IOException {
+    LineCallback sumCallback = new LineCallback(){
+      public Integer doSomethingWithLine(String line, Integer value){
+        return value + Integer.valueOf(line);
+      }
+    };
+    return lineReadTemplate(filepath, sumCallback, 0);
+  }
+
+  public Integer calcMultiply(String filepath) throws IOException{
+    LineCallback multiplyCallback = new LineCallback() {
+      @Override
+      public Integer doSomethingWithLine(String line, Integer value) {
+        return value * Integer.valueOf(line);
+      }
+    };
+    return lineReadTemplate(filepath, multiplyCallback,1);
   }
 }
