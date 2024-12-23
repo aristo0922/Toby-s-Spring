@@ -5,24 +5,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.sql.DataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.stereotype.Component;
-import user.dao.JdbcContext;
 import user.domain.strategy.StatementStrategy;
 
 @Component
 public class UserDao {
 
   private DataSource dataSource;
-  private JdbcContext jdbcContext;
+  private JdbcTemplate jdbcTemplate;
 
   public void setDataSource(DataSource dataSource) {
+    this.jdbcTemplate = new JdbcTemplate(dataSource);
     this.dataSource = dataSource;
-  }
-
-  public void setJdbcContext(JdbcContext jdbcContext){
-    this.jdbcContext = jdbcContext;
   }
 
   public void jdbcContextWithStatementStrategy(StatementStrategy strategy) throws SQLException{
@@ -43,18 +40,7 @@ public class UserDao {
   }
 
   public void add(final User user) throws SQLException {
-    this.jdbcContext.workWithStatementStrategy((
-        new StatementStrategy() {
-          @Override
-          public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
-            PreparedStatement ps = c.prepareStatement("insert into users(id, name, password) values(?,?,?)");
-            ps.setString(1, user.getId());
-            ps.setString(2, user.getName());
-            ps.setString(3, user.getPassword());
-            return ps;
-          }
-        }
-        ));
+    this.jdbcTemplate.update("insert into users(id, name, password) values(?,?,?)", user.getId(), user.getName(), user.getPassword());
   }
 
   public User get(String id) throws ClassNotFoundException, SQLException {
@@ -85,7 +71,7 @@ public class UserDao {
   }
 
   public void deleteAll() throws SQLException {
-    this.jdbcContext.executeSql("delete from users");
+    this.jdbcTemplate.update("delete from users");
   }
 
   public int getCount() throws SQLException {

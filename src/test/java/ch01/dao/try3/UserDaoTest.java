@@ -40,7 +40,7 @@ public class UserDaoTest {
         jdbcContext.setDataSource(dataSource);
 
         dao.setDataSource(dataSource);
-        dao.setJdbcContext(jdbcContext);
+//        dao.setJdbcContext(jdbcContext);
     }
 
     @Test
