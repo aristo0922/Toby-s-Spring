@@ -70,12 +70,32 @@ public class UserDaoTest {
     @Test
     public void getAll() throws SQLException {
         dao.deleteAll();
-        User user1 = new User();
+        User user1 = new User("villain", "Musk", "villains");
         dao.add(user1);
         List<User> users1 = dao.getAll();
-        Assertions.assertEquals(1, user1.size());
+        Assertions.assertEquals(1, users1.size());
+        checkSameUser(user1, users1.get(0));
 
+        User user2 = new User("xdinary", "heroes", "villains");
+        dao.add(user2);
+        List<User> users2 = dao.getAll();
+        Assertions.assertEquals(2, users2.size());
+        checkSameUser(user1, users2.get(0));
+        checkSameUser(user2, users2.get(1));
 
+        User user3 = new User("hello", "world", "TEST_ME");
+        dao.add(user3);
+        List<User> users3 = dao.getAll();
+        Assertions.assertEquals(3, users3.size());
+        checkSameUser(user3, users3.get(0));
+        checkSameUser(user1, users3.get(1));
+        checkSameUser(user2, users3.get(2));
+    }
+
+    private void checkSameUser(User user1, User user2){
+        Assertions.assertEquals(user2.getId(), user1.getId());
+        Assertions.assertEquals(user2.getName(), user1.getName());
+        Assertions.assertEquals(user2.getPassword(), user1.getPassword());
     }
 }
 
