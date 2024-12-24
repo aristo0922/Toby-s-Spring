@@ -105,5 +105,13 @@ public class UserDaoTest {
         Assertions.assertEquals(user2.getName(), user1.getName());
         Assertions.assertEquals(user2.getPassword(), user1.getPassword());
     }
+
+    @Test
+    void getEmptyList() throws SQLException{
+        dao.deleteAll();
+
+        List<User> users0 = dao.getAll();
+        Assertions.assertEquals(0, users0.size());
+    }
 }
 
