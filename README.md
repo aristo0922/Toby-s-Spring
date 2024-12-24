@@ -1,0 +1,23 @@
+
+[들어가며](http://ambitious-recess-219.notion.site)
+
+[1장. 오브젝트와 의존관계](https://ambitious-recess-219.notion.site/1-14475e05e52a8092ba82fa5444d968e4?pvs=4)
+- [1.1 초난감 DAO](https://ambitious-recess-219.notion.site/1-1-DAO-14475e05e52a8046952bdd81e3f943fc?pvs=4)
+- [1.2 DAO 의 분리](https://ambitious-recess-219.notion.site/1-2-DAO-14475e05e52a80268e23c6c3f0b182a6?pvs=4)
+- [1.3 DAO 의 확장](https://ambitious-recess-219.notion.site/1-3-DAO-14475e05e52a80299825f11b0a84933c?pvs=4)
+- [1.4 제어의 역전 IoC](https://ambitious-recess-219.notion.site/1-4-IoC-14675e05e52a807d8c45f5ce40b86e24?pvs=4)
+- [1.5 스프링의 IoC](https://ambitious-recess-219.notion.site/1-5-IoC-14c75e05e52a80208576def853a4cb3e?pvs=4)
+[2장. 테스트](https://ambitious-recess-219.notion.site/2-15a75e05e52a80b2a653f65034de4819?pvs=4)
+- [JUnit Test 클래스 수행 방식](https://ambitious-recess-219.notion.site/JUnit-15a75e05e52a808a912fcf30eed667de?pvs=4)
+- [2.4.1 테스트를 위한 애플리케이션 컨텍스트 관리](https://ambitious-recess-219.notion.site/2-4-1-15a75e05e52a8006a10be01e972e8237?pvs=4)
+- [2.4.2 DI 와 테스트](https://ambitious-recess-219.notion.site/2-4-2-DI-15a75e05e52a80dcab66d46cd6bfa93a?pvs=4)
+- [2.5 학습 테스트로 배우는 스프링](https://ambitious-recess-219.notion.site/2-5-15a75e05e52a804a9c8fc8d2fd5d19be?pvs=4)
+[3장. 템플릿](https://ambitious-recess-219.notion.site/3-15175e05e52a809ebed6d269deca5841?pvs=4)
+- [3.1 다시 보는 초난감 DAO](https://ambitious-recess-219.notion.site/3-1-DAO-15175e05e52a80f5913af5a1de62dbcf?pvs=4)
+- [3.2 변하는 것과 변하지 않는 것](https://ambitious-recess-219.notion.site/3-2-15175e05e52a8015a4e2c04fffba4069?pvs=4)
+- [3.3 JDBC 전략 패턴의 최적화](https://ambitious-recess-219.notion.site/3-3-JDBC-15e75e05e52a801e8138cc3d9dc55ba6?pvs=4)
+- [3.4 컨텍스트와 DI](https://ambitious-recess-219.notion.site/3-4-DI-16275e05e52a802dac76f92ba0ca131a?pvs=4)
+- [3.5 템플릿과 콜백](https://ambitious-recess-219.notion.site/3-5-16275e05e52a80719c63f30e85ca7528?pvs=4)
+- [3.6 스프링의 jdbcTemplate](https://ambitious-recess-219.notion.site/3-6-jdbcTemplate-16575e05e52a80adb11ecf10e4a19edd?pvs=4)
+
+[full verions - notion](https://ambitious-recess-219.notion.site/14475e05e52a80aaa0e4c3ca67ce5f8d?pvs=4)
