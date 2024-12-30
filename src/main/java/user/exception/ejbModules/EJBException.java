@@ -1,4 +1,4 @@
-package user.exception;
+package user.exception.ejbModules;
 
 import javax.naming.NamingException;
 
