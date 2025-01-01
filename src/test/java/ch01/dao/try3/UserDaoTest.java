@@ -16,6 +16,7 @@ import user.dao.JdbcContext;
 import user.domain.DaoForTest;
 import user.domain.User;
 import user.domain.UserDao;
+import user.domain.UserDaoJdbc;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -40,7 +41,7 @@ public class UserDaoTest {
         jdbcContext = new JdbcContext();
         jdbcContext.setDataSource(dataSource);
 
-        dao.setDataSource(dataSource);
+//        dao.setDataSource(dataSource);
     }
 
     @Test
@@ -80,9 +81,16 @@ public class UserDaoTest {
     @Test
     public void getAll() throws SQLException {
         dao.deleteAll();
+        List<User> users = dao.getAll();
+        Assertions.assertEquals(0, users.size());
 
         dao.add(user1);
         List<User> users1 = dao.getAll();
+        for (User user : users1) {
+            System.out.println("user id = " + user.getId());
+            System.out.println("user name = " + user.getName());
+            System.out.println("user password = " + user.getPassword());
+        }
         Assertions.assertEquals(1, users1.size());
         checkSameUser(user1, users1.get(0));
 

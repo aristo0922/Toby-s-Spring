@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import user.domain.DaoForTest;
 import user.domain.User;
 import user.domain.UserDao;
+import user.domain.UserDaoJdbc;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {DaoForTest.class})
@@ -26,10 +27,10 @@ public class UserDaoTest {
   @Autowired
   private ApplicationContext context;
 
-//  @Autowired
+  @Autowired
   private UserDao dao;
 
-//  @Autowired
+  @Autowired
   SimpleDriverDataSource dataSource;
 
   private User user1;
@@ -39,14 +40,14 @@ public class UserDaoTest {
 
   @Before
   public void setup() {
-    this.dao = context.getBean("userDao", UserDao.class);
+    this.dao = context.getBean("userDao", UserDaoJdbc.class);
 
     user1 = new User("dkfud2121", "장아령", "springno1");
     user2 = new User("Ryan Lee", "라이언", "springno2");
     user3 = new User("villains", "빌런즈", "springno3");
 
     DataSource dataSource = new SingleConnectionDataSource("jdbc:mysql://localhost/testdb", "root", "0000", true);
-    dao.setDataSource(dataSource);
+//    dao.setDataSource(dataSource);
   }
 
   @Test

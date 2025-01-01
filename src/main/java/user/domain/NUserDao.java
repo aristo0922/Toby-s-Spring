@@ -3,9 +3,8 @@ package user.domain;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import user.domain.connectionMaker.ConnectionMaker;
 
-public class NUserDao extends UserDao {
+public class NUserDao extends UserDaoJdbc {
 
   // 상속을 통해서 확장
   public Connection getConnection() throws ClassNotFoundException, SQLException {
