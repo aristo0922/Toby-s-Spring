@@ -7,10 +7,11 @@ import java.sql.SQLException;
 import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
-import user.exception.DuplicateUserIdException;
+//import user.exception.DuplicateUserIdException;
 
 @Component
 public class UserDaoJdbc implements UserDao {
@@ -33,18 +34,23 @@ public class UserDaoJdbc implements UserDao {
   };
 
 
-  public void add(final User user) throws DuplicateUserIdException {
+  public void add(final User user) throws DuplicateKeyException {
     try {
       this.jdbcTemplate.update("insert into users(id, name, password) values(?,?,?)", user.getId(),
           user.getName(), user.getPassword());
-    } catch (DataAccessException e) {
+    } catch (DuplicateKeyException e){
+      throw new DuplicateKeyException("[message] key error",e);
+    }
+    catch (DataAccessException e) {
       Throwable cause = e.getCause();
-      if (cause instanceof SQLException) {
-        SQLException sqlException = (SQLException) cause;
-        if (sqlException.getErrorCode() == MysqlErrorNumbers.ER_DUP_ENTRY) {
-          throw new DuplicateUserIdException(sqlException); // 예외 전환
-        }
-      }
+//      if(cause)
+
+//      if (cause instanceof SQLException) {
+//        SQLException sqlException = (SQLException) cause;
+//        if (sqlException.getErrorCode() == MysqlErrorNumbers.ER_DUP_ENTRY) {
+//          throw new DuplicateKeyException(cause); // 예외 전환
+//        }
+//      }
         throw new RuntimeException(e); //예외 포장
     }
   }
