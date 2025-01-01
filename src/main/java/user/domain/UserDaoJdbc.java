@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import user.exception.DuplicateUserIdException;
 
-@Component("userDao")
+@Component
 public class UserDaoJdbc implements UserDao {
 
   public void setDataSource(DataSource dataSource) {

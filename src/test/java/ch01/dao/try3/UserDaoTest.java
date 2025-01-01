@@ -16,7 +16,6 @@ import user.dao.JdbcContext;
 import user.domain.DaoForTest;
 import user.domain.User;
 import user.domain.UserDao;
-import user.domain.UserDaoJdbc;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
