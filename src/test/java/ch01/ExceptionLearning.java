@@ -16,6 +16,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import user.domain.DaoForTest;
+import user.domain.Level;
 import user.domain.User;
 import user.domain.UserDao;
 import user.domain.UserDaoJdbc;
@@ -32,7 +33,7 @@ public class ExceptionLearning {
 
   @Before
   public void setup() {
-    user1 = new User("dkfud2121", "장아령", "springno1");
+    user1 = new User("dkfud2121", "장아령", "springno1", Level.BASIC, 0, 0);
   }
 
   @Test

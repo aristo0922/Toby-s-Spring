@@ -1,7 +1,6 @@
 package user.domain;
 
 
-import com.mysql.cj.exceptions.MysqlErrorNumbers;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -29,6 +28,9 @@ public class UserDaoJdbc implements UserDao {
       user.setId(rs.getString("id"));
       user.setName(rs.getString("name"));
       user.setPassword(rs.getString("password"));
+      user.setLevel(Level.valueOf(rs.getInt("level")));
+      user.setLogin(rs.getInt("login"));
+      user.setRecommend(rs.getInt("recommend"));
       return user;
     }
   };
@@ -36,22 +38,16 @@ public class UserDaoJdbc implements UserDao {
 
   public void add(final User user) throws DuplicateKeyException {
     try {
-      this.jdbcTemplate.update("insert into users(id, name, password) values(?,?,?)", user.getId(),
-          user.getName(), user.getPassword());
-    } catch (DuplicateKeyException e){
-      throw new DuplicateKeyException("[message] key error",e);
-    }
-    catch (DataAccessException e) {
+      this.jdbcTemplate.update(
+          "insert into users(id, name, password, Level, Login, Recommend) values(?,?,?,?,?,?)",
+          user.getId(),
+          user.getName(), user.getPassword(), user.getLevel().intValue(), user.getLogin(),
+          user.getRecommend());
+    } catch (DuplicateKeyException e) {
+      throw new DuplicateKeyException("[message] key error", e);
+    } catch (DataAccessException e) {
       Throwable cause = e.getCause();
-//      if(cause)
-
-//      if (cause instanceof SQLException) {
-//        SQLException sqlException = (SQLException) cause;
-//        if (sqlException.getErrorCode() == MysqlErrorNumbers.ER_DUP_ENTRY) {
-//          throw new DuplicateKeyException(cause); // 예외 전환
-//        }
-//      }
-        throw new RuntimeException(e); //예외 포장
+      throw new RuntimeException(e); //예외 포장
     }
   }
 

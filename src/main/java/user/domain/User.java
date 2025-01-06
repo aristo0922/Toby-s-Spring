@@ -1,5 +1,10 @@
 package user.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.ToString;
+
+@ToString
+@AllArgsConstructor
 public class User {
 
   String id;
@@ -8,23 +13,32 @@ public class User {
 
   Level level;
   int login;
-  int recommand;
+  int recommend;
 
-  public Level getLevel(){
-    return level;
+
+  public User() {  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
   public void setLevel(Level level) {
     this.level = level;
   }
 
-  public User() {
+  public void setLogin(int login) {
+    this.login = login;
   }
 
-  public User(String id, String name, String password) {
-    this.id = id;
-    this.name = name;
-    this.password = password;
+  public void setRecommend(int recommend) {
+    this.recommend = recommend;
   }
 
   public String getId() {
@@ -39,19 +53,13 @@ public class User {
     return password;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public Level getLevel() {
+    return level;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
+  public int getLogin() { return login; }
 
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public int size() {
-    return 0;
+  public int getRecommend() {
+    return recommend;
   }
 }

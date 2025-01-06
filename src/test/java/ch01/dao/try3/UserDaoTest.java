@@ -14,6 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import user.dao.JdbcContext;
 import user.domain.DaoForTest;
+import user.domain.Level;
 import user.domain.User;
 import user.domain.UserDao;
 
@@ -63,7 +64,7 @@ public class UserDaoTest {
         Assertions.assertNotNull(dao);
         Assertions.assertNotNull(dataSource);
         dao.deleteAll();
-        User user = new User("1", "user@naver.com", "123456");
+        User user = new User("1", "user@naver.com", "123456", Level.BASIC, 0, 0);
         dao.add(user);
     }
 
@@ -72,9 +73,9 @@ public class UserDaoTest {
     private User user3;
     @BeforeEach
     void setUsers(){
-        user1 = new User("villain", "Musk", "villains");
-        user2 = new User("xdinary", "heroes", "villains");
-        user3 = new User("hello", "world", "TEST_ME");
+        user1 = new User("villain", "Musk", "villains", Level.BASIC, 0, 0);
+        user2 = new User("xdinary", "heroes", "villains", Level.BASIC, 0, 0);
+        user3 = new User("hello", "world", "TEST_ME", Level.BASIC, 0, 0);
     }
 
     @Test

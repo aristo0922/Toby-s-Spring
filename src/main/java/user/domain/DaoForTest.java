@@ -20,7 +20,7 @@ public class DaoForTest {
     SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
 
     dataSource.setDriverClass(com.mysql.cj.jdbc.Driver.class);
-    dataSource.setUrl("jdbc:mysql://localhost/testdb");
+    dataSource.setUrl("jdbc:mysql://localhost/toby_spring");
     dataSource.setUsername("root");
     dataSource.setPassword("0000");
     return dataSource;
