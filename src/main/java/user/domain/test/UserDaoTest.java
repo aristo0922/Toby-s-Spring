@@ -1,5 +1,6 @@
 package user.domain.test;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.junit.Before;
 import org.junit.jupiter.api.Assertions;

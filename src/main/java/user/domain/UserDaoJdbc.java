@@ -1,15 +1,21 @@
 package user.domain;
 
 
+import static org.junit.Assert.assertEquals;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import javax.sql.DataSource;
+import org.junit.Test;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 //import user.exception.DuplicateUserIdException;
 
 @Component
@@ -34,7 +40,6 @@ public class UserDaoJdbc implements UserDao {
       return user;
     }
   };
-
 
   public void add(final User user) throws DuplicateKeyException {
     try {
@@ -68,5 +73,28 @@ public class UserDaoJdbc implements UserDao {
   public List<User> getAll() {
     return this.jdbcTemplate.query("select * from users order by id",
         this.userMapper);
+  }
+
+
+  @Test
+  public void testRowMapper() throws SQLException {
+    // Mocking ResultSet
+    ResultSet mockResultSet = mock(ResultSet.class);
+    when(mockResultSet.getString("id")).thenReturn("testId");
+    when(mockResultSet.getString("name")).thenReturn("Test User");
+    when(mockResultSet.getString("password")).thenReturn("password123");
+    when(mockResultSet.getInt("level")).thenReturn(1); // BASIC
+    when(mockResultSet.getInt("login")).thenReturn(10);
+    when(mockResultSet.getInt("recommend")).thenReturn(5);
+
+    RowMapper<User> rowMapper = userMapper;
+    User user = rowMapper.mapRow(mockResultSet, 1);
+
+    assertEquals("testId", user.getId());
+    assertEquals("Test User", user.getName());
+    assertEquals("password123", user.getPassword());
+    assertEquals(Level.BASIC, user.getLevel());
+    assertEquals(10, user.getLogin());
+    assertEquals(5, user.getRecommend());
   }
 }
