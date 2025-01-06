@@ -18,7 +18,7 @@ dependencies {
 
     // JUnit4 의존성
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.mockito:mockito-core:5.5.0'
+//    testImplementation 'org.mockito:mockito-core:5.5.0'
     implementation 'org.mockito:mockito-core:5.5.0'
 
     // Spring Test 의존성 (JUnit4 지원)

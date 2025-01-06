@@ -41,6 +41,14 @@ public class UserDaoJdbc implements UserDao {
     }
   };
 
+  @Override
+  public void update(User user1) {
+    this.jdbcTemplate.update(
+        "update users set name = ?, password = ?, level = ?, login = ?, "+
+            "recommend = ? where id = ?", user1.getName(), user1.getPassword(),
+        user1.getLevel().intValue(), user1.getLogin(), user1.getRecommend(), user1.getId());
+  }
+
   public void add(final User user) throws DuplicateKeyException {
     try {
       this.jdbcTemplate.update(
