@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -21,6 +22,7 @@ import static org.mockito.Mockito.when;
 @Component
 public class UserDaoJdbc implements UserDao {
 
+  @Autowired
   public void setDataSource(DataSource dataSource) {
     this.jdbcTemplate = new JdbcTemplate(dataSource);
   }
