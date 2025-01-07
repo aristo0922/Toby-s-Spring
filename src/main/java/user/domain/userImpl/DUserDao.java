@@ -1,8 +1,9 @@
-package user.domain;
+package user.domain.userImpl;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import user.domain.UserDaoJdbc;
 
 public class DUserDao extends UserDaoJdbc {
 

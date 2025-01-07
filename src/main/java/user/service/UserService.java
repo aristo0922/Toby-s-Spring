@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import user.domain.Level;
 import user.domain.User;
 import user.domain.UserDao;
+import user.domain.UserLevelUpgradePolicy;
 
 @Service
 public class UserService {
@@ -14,33 +15,29 @@ public class UserService {
 
   public static final int MIN_LOGCOUNT_FOR_SILVER = 50;
   public static final int MIN_RECCOMEND_FOR_GOLD = 50;
+  private UserLevelUpgradePolicy policy;
 
   @Autowired
   public void setUserDao(UserDao userDao){
     this.userDao = userDao;
   }
 
+  @Autowired
+  public void setUserLevelUpgradePolicy(UserLevelUpgradePolicy policy){
+    this.policy = policy;
+  }
+
   public void upgradeLevels(){
     List<User> users = userDao.getAll();
     for(User user: users) {
-      if (canUpgradeLevel(user)) {
+      if (policy.canUpgradeLevel(user)) {
         upgradeLevel(user);
       }
     }
   }
 
-  private boolean canUpgradeLevel(User user){
-    Level currentLevel = user.getLevel();
-    switch(currentLevel){
-      case BASIC: return (user.getLogin() >= MIN_LOGCOUNT_FOR_SILVER);
-      case SILVER: return (user.getRecommend() >= MIN_RECCOMEND_FOR_GOLD);
-      case GOLD: return false;
-      default: throw new IllegalArgumentException("Unknown Level: "+ currentLevel);
-    }
-  }
-
   private void upgradeLevel(User user){
-    user.upgradeLevel();
+    policy.upgradeLevel(user);
     userDao.update(user);
   }
 

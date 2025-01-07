@@ -19,6 +19,11 @@ public class DaoForTest {
   }
 
   @Bean
+  public UserLevelUpgradePolicy policy(){
+    return new UserLevelUpgradePolicyImpl();
+  }
+
+  @Bean
   public DataSource dataSource(){
     SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
 
@@ -38,6 +43,7 @@ public class DaoForTest {
   public UserService userService(){
     UserService userService = new UserService();
     userService.setUserDao(userDao());
+    userService.setUserLevelUpgradePolicy(policy());
     return userService;
   }
 }
