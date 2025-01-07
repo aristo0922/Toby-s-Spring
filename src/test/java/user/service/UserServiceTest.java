@@ -1,5 +1,8 @@
 package user.service;
 
+import static user.service.UserService.MIN_LOGCOUNT_FOR_SILVER;
+import static user.service.UserService.MIN_RECCOMEND_FOR_GOLD;
+
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,11 +33,11 @@ class UserServiceTest {
   @BeforeEach
   public void setUp(){
     users = Arrays.asList(
-        new User("Gunil", "구건일", "드럼", Level.BASIC, 49, 0),
-        new User("Justice", "김정수", "키보드", Level.BASIC, 50, 0),
-        new User("Gaon", "곽지석", "리드기타", Level.SILVER, 60, 29),
-        new User("Junhan", "한형준", "기타", Level.SILVER, 60, 30),
-        new User("O.de", "오승민", "신스", Level.GOLD, 49, 30),
+        new User("Gunil", "구건일", "드럼", Level.BASIC, MIN_LOGCOUNT_FOR_SILVER-1, 0),
+        new User("Justice", "김정수", "키보드", Level.BASIC, MIN_LOGCOUNT_FOR_SILVER, 0),
+        new User("Gaon", "곽지석", "리드기타", Level.SILVER, 60, MIN_RECCOMEND_FOR_GOLD-1),
+        new User("Junhan", "한형준", "기타", Level.SILVER, 60, MIN_RECCOMEND_FOR_GOLD),
+        new User("O.de", "오승민", "신스", Level.GOLD, 100, Integer.MAX_VALUE),
         new User("Juyeon", "이주연", "베이스", Level.GOLD, 100, 100)
     );
   }
