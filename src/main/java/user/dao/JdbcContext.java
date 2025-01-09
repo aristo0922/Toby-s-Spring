@@ -29,6 +29,28 @@ public class JdbcContext {
     }
   }
 
+  public void useTransactionJdbc() throws SQLException {
+    Connection c = null;
+
+    try{
+      c = this.dataSource.getConnection();
+      c.setAutoCommit(false); // 트랜잭션 시작
+      PreparedStatement st1 = c.prepareStatement("update users ...");
+      st1.executeUpdate();
+
+      PreparedStatement st2 = c.prepareStatement("delete users ...");
+      st2.executeUpdate();
+
+      c.commit();
+    }catch (Exception e){
+      if (c!=null){
+        c.rollback();
+      }
+    } finally {
+      if ( c!= null ) { try { c.close();} catch (SQLException e){}}
+    }
+  }
+
 
   public void executeSql(final String query) throws SQLException{
     workWithStatementStrategy(
