@@ -36,7 +36,7 @@ public class UserService {
     }
   }
 
-  private void upgradeLevel(User user){
+  protected void upgradeLevel(User user){
     policy.upgradeLevel(user);
     userDao.update(user);
   }
