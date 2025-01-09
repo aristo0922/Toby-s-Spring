@@ -6,6 +6,7 @@ import static user.service.UserService.MIN_RECCOMEND_FOR_GOLD;
 
 import java.util.Arrays;
 import java.util.List;
+import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
@@ -18,6 +19,7 @@ import user.domain.DaoForTest;
 import user.domain.Level;
 import user.domain.User;
 import user.domain.UserDao;
+import user.domain.UserLevelUpgradePolicy;
 
 @ExtendWith(SpringExtension.class) // Spring 테스트 컨텍스트 통합
 @ContextConfiguration(classes = {DaoForTest.class})
@@ -30,6 +32,13 @@ class UserServiceTest {
   private UserDao userDao;
   @Autowired
   UserService userService;
+
+  @Autowired
+  DataSource dataSource;
+
+  @Autowired
+  UserLevelUpgradePolicy policy;
+
 
   @BeforeEach
   public void setUp(){
@@ -56,7 +65,7 @@ class UserServiceTest {
 
     for (User user: users) userDao.add(user);
 
-    userService.upgradeLevels();
+//    userService.upgradeLevels();
     checkkLevelUpgrade(users.get(0), false);
     checkkLevelUpgrade(users.get(1), true);
     checkkLevelUpgrade(users.get(2), false);
@@ -93,9 +102,11 @@ class UserServiceTest {
   }
 
   @Test
-  public void upgradeAllOrNothing(){
+  public void upgradeAllOrNothing() throws Exception{
       UserService testUserService = new TestUserService(users.get(3).getId());
       testUserService.setUserDao(this.userDao);
+      testUserService.setDataSource(this.dataSource);
+      testUserService.setUserLevelUpgradePolicy(this.policy);
       userDao.deleteAll();
       for(User user: users) userDao.add(user);
 

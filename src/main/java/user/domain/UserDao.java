@@ -1,9 +1,10 @@
 package user.domain;
 
+import java.sql.Connection;
 import java.util.List;
 
 public interface UserDao {
-  public void update(User user1);
+  void update(User user1);
 
   void add(User user);
 
