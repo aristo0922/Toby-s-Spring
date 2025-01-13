@@ -24,7 +24,8 @@ public class UserService {
 
   @Autowired
   private DataSource dataSource;
-  public void setDataSource(DataSource dataSource){
+
+  public void setDataSource(DataSource dataSource) {
     this.dataSource = dataSource;
   }
 
@@ -33,49 +34,53 @@ public class UserService {
   private UserLevelUpgradePolicy policy;
 
   @Autowired
-  public void setUserDao(UserDao userDao){
+  public void setUserDao(UserDao userDao) {
     this.userDao = userDao;
   }
 
   @Autowired
-  public void setUserLevelUpgradePolicy(UserLevelUpgradePolicy policy){
+  public void setUserLevelUpgradePolicy(UserLevelUpgradePolicy policy) {
     this.policy = policy;
   }
 
   public void upgradeLevels() throws SQLException {
-//    PlatformTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
-//    TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+    PlatformTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
+    TransactionStatus status = transactionManager.getTransaction(
+        new DefaultTransactionDefinition());
 
-    TransactionSynchronizationManager.initSynchronization();;
-    Connection c = DataSourceUtils.getConnection(dataSource);
-    c.setAutoCommit(false);
-    try{
+//    TransactionSynchronizationManager.initSynchronization();;
+//    Connection c = DataSourceUtils.getConnection(dataSource);
+//    c.setAutoCommit(false);
+    try {
       List<User> users = userDao.getAll();
-      for(User user: users) {
+      for (User user : users) {
         if (policy.canUpgradeLevel(user)) {
           upgradeLevel(user);
         }
       }
-      c.commit();
-//      transactionManager.commit(status);
-    }catch(RuntimeException e){
-      c.rollback();
-//      transactionManager.rollback(status);
+//      c.commit();
+      transactionManager.commit(status);
+    } catch (RuntimeException e) {
+//      c.rollback();
+      transactionManager.rollback(status);
       throw e;
-    }finally {
-      DataSourceUtils.releaseConnection(c, dataSource);
-      TransactionSynchronizationManager.unbindResource(this.dataSource);
-      TransactionSynchronizationManager.clearSynchronization();
     }
+//    }finally {
+////      DataSourceUtils.releaseConnection(c, dataSource);
+//      TransactionSynchronizationManager.unbindResource(this.dataSource);
+//      TransactionSynchronizationManager.clearSynchronization();
+//    }
   }
 
-  protected void upgradeLevel(User user){
+  protected void upgradeLevel(User user) {
     policy.upgradeLevel(user);
     userDao.update(user);
   }
 
-  public void add(User user){
-    if (user.getLevel() == null) user.setLevel(Level.BASIC);
+  public void add(User user) {
+    if (user.getLevel() == null) {
+      user.setLevel(Level.BASIC);
+    }
     userDao.add(user);
   }
 }
