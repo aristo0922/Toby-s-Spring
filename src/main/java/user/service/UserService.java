@@ -21,6 +21,8 @@ import user.domain.UserLevelUpgradePolicy;
 public class UserService {
 
   UserDao userDao;
+
+  @Autowired
   private DataSource dataSource;
   public void setDataSource(DataSource dataSource){
     this.dataSource = dataSource;
@@ -41,12 +43,12 @@ public class UserService {
   }
 
   public void upgradeLevels() throws SQLException {
-    PlatformTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
-    TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+//    PlatformTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
+//    TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
-//    TransactionSynchronizationManager.initSynchronization();;
-//    Connection c = DataSourceUtils.getConnection(dataSource);
-//    c.setAutoCommit(false);
+    TransactionSynchronizationManager.initSynchronization();;
+    Connection c = DataSourceUtils.getConnection(dataSource);
+    c.setAutoCommit(false);
     try{
       List<User> users = userDao.getAll();
       for(User user: users) {
@@ -54,11 +56,11 @@ public class UserService {
           upgradeLevel(user);
         }
       }
-//      c.commit();
-      transactionManager.commit(status);
+      c.commit();
+//      transactionManager.commit(status);
     }catch(RuntimeException e){
-//      c.rollback();
-      transactionManager.rollback(status);
+      c.rollback();
+//      transactionManager.rollback(status);
       throw e;
     }finally {
       DataSourceUtils.releaseConnection(c, dataSource);

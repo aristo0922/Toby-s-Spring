@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static user.service.UserService.MIN_LOGCOUNT_FOR_SILVER;
 import static user.service.UserService.MIN_RECCOMEND_FOR_GOLD;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import javax.sql.DataSource;
@@ -59,22 +60,22 @@ class UserServiceTest {
   }
 
   @Test
-  public void upgradeLevels(){
+  public void upgradeLevels() throws SQLException {
     userDao.deleteAll();
     Assertions.assertNotNull(this.userDao);
 
     for (User user: users) userDao.add(user);
 
-//    userService.upgradeLevels();
-    checkkLevelUpgrade(users.get(0), false);
-    checkkLevelUpgrade(users.get(1), true);
-    checkkLevelUpgrade(users.get(2), false);
-    checkkLevelUpgrade(users.get(3), true);
-    checkkLevelUpgrade(users.get(4), false);
-    checkkLevelUpgrade(users.get(5), false);
+    userService.upgradeLevels();
+    checkLevelUpgrade(users.get(0), false);
+    checkLevelUpgrade(users.get(1), true);
+    checkLevelUpgrade(users.get(2), false);
+    checkLevelUpgrade(users.get(3), true);
+    checkLevelUpgrade(users.get(4), false);
+    checkLevelUpgrade(users.get(5), false);
   }
 
-  private void checkkLevelUpgrade(User user, boolean upgraded){
+  private void checkLevelUpgrade(User user, boolean upgraded){
     User userUpdate = userDao.get(user.getId());
     if (upgraded){
       Assertions.assertEquals(user.getLevel().nextLevel(), userUpdate.getLevel());
@@ -117,7 +118,7 @@ class UserServiceTest {
 
       }
 
-      checkkLevelUpgrade(users.get(1), false);
+      checkLevelUpgrade(users.get(1), false);
   }
 
   static class TestUserService extends UserService {
