@@ -5,8 +5,12 @@ import java.sql.SQLException;
 import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import user.domain.Level;
 import user.domain.User;
@@ -37,10 +41,12 @@ public class UserService {
   }
 
   public void upgradeLevels() throws SQLException {
-    TransactionSynchronizationManager.initSynchronization();;
-    Connection c = DataSourceUtils.getConnection(dataSource);
-    c.setAutoCommit(false);
+    PlatformTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
+    TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
+//    TransactionSynchronizationManager.initSynchronization();;
+//    Connection c = DataSourceUtils.getConnection(dataSource);
+//    c.setAutoCommit(false);
     try{
       List<User> users = userDao.getAll();
       for(User user: users) {
@@ -48,9 +54,11 @@ public class UserService {
           upgradeLevel(user);
         }
       }
-      c.commit();
-    }catch(Exception e){
-      c.rollback();
+//      c.commit();
+      transactionManager.commit(status);
+    }catch(RuntimeException e){
+//      c.rollback();
+      transactionManager.rollback(status);
       throw e;
     }finally {
       DataSourceUtils.releaseConnection(c, dataSource);
