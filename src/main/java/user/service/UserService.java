@@ -21,17 +21,14 @@ import user.domain.UserLevelUpgradePolicy;
 public class UserService {
 
   UserDao userDao;
-
-  @Autowired
-  private DataSource dataSource;
-
-  public void setDataSource(DataSource dataSource) {
-    this.dataSource = dataSource;
-  }
-
+  private PlatformTransactionManager transactionManager;
   public static final int MIN_LOGCOUNT_FOR_SILVER = 50;
   public static final int MIN_RECCOMEND_FOR_GOLD = 50;
   private UserLevelUpgradePolicy policy;
+
+  public void setTransactionManager(PlatformTransactionManager transactionManager){
+    this.transactionManager = transactionManager;
+  }
 
   @Autowired
   public void setUserDao(UserDao userDao) {
@@ -44,13 +41,9 @@ public class UserService {
   }
 
   public void upgradeLevels() throws SQLException {
-    PlatformTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
-    TransactionStatus status = transactionManager.getTransaction(
+    TransactionStatus status = this.transactionManager.getTransaction(
         new DefaultTransactionDefinition());
 
-//    TransactionSynchronizationManager.initSynchronization();;
-//    Connection c = DataSourceUtils.getConnection(dataSource);
-//    c.setAutoCommit(false);
     try {
       List<User> users = userDao.getAll();
       for (User user : users) {
@@ -58,18 +51,11 @@ public class UserService {
           upgradeLevel(user);
         }
       }
-//      c.commit();
-      transactionManager.commit(status);
+      this.transactionManager.commit(status);
     } catch (RuntimeException e) {
-//      c.rollback();
-      transactionManager.rollback(status);
+      this.transactionManager.rollback(status);
       throw e;
     }
-//    }finally {
-////      DataSourceUtils.releaseConnection(c, dataSource);
-//      TransactionSynchronizationManager.unbindResource(this.dataSource);
-//      TransactionSynchronizationManager.clearSynchronization();
-//    }
   }
 
   protected void upgradeLevel(User user) {
