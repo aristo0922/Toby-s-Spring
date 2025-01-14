@@ -11,6 +11,7 @@ public class User {
   String name;
   String password;
 
+  String email;
   Level level;
   int login;
   int recommend;
@@ -41,6 +42,10 @@ public class User {
     this.recommend = recommend;
   }
 
+  public void setEmail(String email){
+    this.email = email;
+  }
+
   public String getId() {
     return id;
   }
@@ -67,5 +72,9 @@ public class User {
     Level nextLevel = this.level.nextLevel();
     if (nextLevel == null) throw new IllegalStateException(this.level+"은 업그레이드가 불가합니다.");
     else this.level = nextLevel;
+  }
+
+  public String getEmail() {
+    return email;
   }
 }
