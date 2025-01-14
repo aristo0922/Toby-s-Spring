@@ -3,7 +3,12 @@ package user.domain;
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import user.domain.connectionMaker.ConnectionMaker;
 import user.domain.connectionMaker.DConnectionMaker;
 import user.service.UserService;
@@ -37,6 +42,12 @@ public class DaoForTest {
   @Bean
   public ConnectionMaker connectionMaker() {
     return new DConnectionMaker();
+  }
+
+  @Bean
+  public TransactionManager transactionManager(){
+    PlatformTransactionManager transactionManager = new DataSourceTransactionManager(dataSource());
+    return transactionManager;
   }
 
   @Bean

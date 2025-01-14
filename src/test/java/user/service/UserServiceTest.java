@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.PlatformTransactionManager;
 import user.domain.DaoForTest;
 import user.domain.Level;
 import user.domain.User;
@@ -39,6 +40,9 @@ class UserServiceTest {
 
   @Autowired
   UserLevelUpgradePolicy policy;
+
+  @Autowired
+  PlatformTransactionManager transactionManager;
 
 
   @BeforeEach
@@ -66,6 +70,7 @@ class UserServiceTest {
 
     for (User user: users) userDao.add(user);
 
+    userService.setTransactionManager(transactionManager);
     userService.upgradeLevels();
     checkLevelUpgrade(users.get(0), false);
     checkLevelUpgrade(users.get(1), true);
@@ -106,7 +111,7 @@ class UserServiceTest {
   public void upgradeAllOrNothing() throws Exception{
       UserService testUserService = new TestUserService(users.get(3).getId());
       testUserService.setUserDao(this.userDao);
-      testUserService.setDataSource(this.dataSource);
+      testUserService.setTransactionManager(transactionManager);
       testUserService.setUserLevelUpgradePolicy(this.policy);
       userDao.deleteAll();
       for(User user: users) userDao.add(user);

@@ -32,6 +32,8 @@ dependencies {
     // Optional: Lombok (if you are using Lombok in your project)
     compileOnly 'org.projectlombok:lombok:1.18.28'
     annotationProcessor 'org.projectlombok:lombok:1.18.28'
+
+    implementation 'com.sun.mail:javax.mail:1.6.2'
 }
 
 test {
