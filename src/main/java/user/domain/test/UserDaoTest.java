@@ -43,9 +43,9 @@ public class UserDaoTest {
   public void setup() {
     this.dao = context.getBean("userDao", UserDaoJdbc.class);
 
-    user1 = new User("dkfud2121", "장아령", "springno1", Level.BASIC, 11, 60);
-    user2 = new User("Ryan Lee", "라이언", "springno2", Level.SILVER, 55, 10);
-    user3 = new User("villains", "빌런즈", "springno3", Level.GOLD, 100, 40);
+    user1 = new User("dkfud2121", "장아령", "springno1", "dkfud2121@naver.com",Level.BASIC, 11, 60);
+    user2 = new User("Ryan Lee", "라이언", "springno2","dkfud2121@gmail.com", Level.SILVER, 55, 10);
+    user3 = new User("villains", "빌런즈", "springno3","ahryeong.jang@gmail.com", Level.GOLD, 100, 40);
   }
 
   private void checkSameUser(User user1, User user2){

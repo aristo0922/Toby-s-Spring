@@ -64,7 +64,7 @@ public class UserDaoTest {
         Assertions.assertNotNull(dao);
         Assertions.assertNotNull(dataSource);
         dao.deleteAll();
-        User user = new User("1", "user@naver.com", "123456", Level.BASIC, 0, 0);
+        User user = new User("1", "user", "123456", "dkfud2121@averc.com",Level.BASIC, 0, 0);
         dao.add(user);
     }
 
@@ -73,9 +73,9 @@ public class UserDaoTest {
     private User user3;
     @BeforeEach
     void setUsers(){
-        user1 = new User("villain", "Musk", "villains", Level.BASIC, 0, 0);
-        user2 = new User("xdinary", "heroes", "villains", Level.BASIC, 0, 0);
-        user3 = new User("hello", "world", "TEST_ME", Level.BASIC, 0, 0);
+        user1 = new User("villain", "Musk", "villains", "dkfud2121@naver.com",Level.BASIC, 0, 0);
+        user2 = new User("xdinary", "heroes", "villains", "dkfud2121@naver.com",Level.BASIC, 0, 0);
+        user3 = new User("hello", "world", "TEST_ME", "dkfud2121@naver.com",Level.BASIC, 0, 0);
     }
 
     @Test
