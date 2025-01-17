@@ -1,14 +1,16 @@
 package user.domain;
 
 import javax.sql.DataSource;
+import mail.JavaMailSenderImpl;
+import mail.MailMessage;
+import mail.MailSender;
+import mail.SimpleMailMessage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionManager;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 import user.domain.connectionMaker.ConnectionMaker;
 import user.domain.connectionMaker.DConnectionMaker;
 import user.service.UserService;
@@ -55,6 +57,17 @@ public class DaoForTest {
     UserService userService = new UserService();
     userService.setUserDao(userDao());
     userService.setUserLevelUpgradePolicy(policy());
+    userService.setMailSender(mailSender("mail.server.com"));
     return userService;
+  }
+
+  @Bean
+  public MailSender mailSender(String host){
+    return new JavaMailSenderImpl(host);
+  }
+
+  @Bean
+  public MailMessage mailMessage(){
+    return new SimpleMailMessage();
   }
 }

@@ -1,14 +1,17 @@
 package mail;
 
-public class JavaMailSenderImpl {// implements MailSender
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
-  String host;
-  public void setHost(String host){
-    this.host = host;
-  }
+@RequiredArgsConstructor
+@Component
+public class JavaMailSenderImpl implements MailSender {// implements MailSender
 
-  public void send(SimpleMailMessage mailMessage) {
+  private final String host;
+
+  @Override
+  public void send(MailMessage message) {
     System.out.println("[Message Receive]");
-    System.out.println(mailMessage);
+    System.out.println(message);
   }
 }

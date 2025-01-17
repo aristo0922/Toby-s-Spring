@@ -3,6 +3,7 @@ package user.service;
 import java.sql.SQLException;
 import java.util.List;
 import mail.JavaMailSenderImpl;
+import mail.MailSender;
 import mail.SimpleMailMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,11 @@ public class UserService {
   public static final int MIN_LOGCOUNT_FOR_SILVER = 50;
   public static final int MIN_RECCOMEND_FOR_GOLD = 50;
   private UserLevelUpgradePolicy policy;
+  private MailSender mailSender;
+
+  public void setMailSender(MailSender mailSender){
+    this.mailSender = mailSender;
+  }
 
   public void setTransactionManager(PlatformTransactionManager transactionManager) {
     this.transactionManager = transactionManager;
@@ -62,9 +68,6 @@ public class UserService {
   }
 
   private void sendUpgradeEmail(User user){
-    JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-    mailSender.setHost("mail.server.com");
-
     SimpleMailMessage mailMessage = new SimpleMailMessage();
 
     mailMessage.setTo(user.getEmail());
@@ -72,7 +75,7 @@ public class UserService {
     mailMessage.setSubject("Ugrade notice");
     mailMessage.setText("user level is updated to: "+ user.getLevel().name());
 
-    mailSender.send(mailMessage);
+    this.mailSender.send(mailMessage);
   }
 
   public void add(User user) {

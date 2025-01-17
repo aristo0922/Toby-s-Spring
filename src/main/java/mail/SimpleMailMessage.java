@@ -1,9 +1,11 @@
 package mail;
 
 import lombok.ToString;
+import org.springframework.stereotype.Component;
 
+@Component
 @ToString
-public class SimpleMailMessage{ // implements MailMessage
+public class SimpleMailMessage implements MailMessage{ // implements MailMessage
 
   private String to;
   private String from;
