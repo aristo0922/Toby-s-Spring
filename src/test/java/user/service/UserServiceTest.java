@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import javax.sql.DataSource;
+import mail.MailSender;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
@@ -31,6 +32,9 @@ class UserServiceTest {
   List<User> users;
 
   @Autowired
+  private MailSender mailSender;
+
+  @Autowired
   private UserDao userDao;
   @Autowired
   UserService userService;
@@ -46,19 +50,23 @@ class UserServiceTest {
 
 
   @BeforeEach
-  public void setUp(){
+  public void setUp() {
     users = Arrays.asList(
-        new User("Gunil", "구건일", "드럼", "dkfud2121@naver.com",Level.BASIC, MIN_LOGCOUNT_FOR_SILVER-1, 0),
-        new User("Justice", "김정수", "키보드","dkfud2121@naver.com", Level.BASIC, MIN_LOGCOUNT_FOR_SILVER, 0),
-        new User("Gaon", "곽지석", "리드기타","dkfud2121@naver.com", Level.SILVER, 60, MIN_RECCOMEND_FOR_GOLD-1),
-        new User("Junhan", "한형준", "기타","dkfud2121@naver.com", Level.SILVER, 60, MIN_RECCOMEND_FOR_GOLD),
-        new User("O.de", "오승민", "신스","dkfud2121@naver.com", Level.GOLD, 100, Integer.MAX_VALUE),
-        new User("Juyeon", "이주연", "베이스","dkfud2121@naver.com", Level.GOLD, 100, 100)
+        new User("Gunil", "구건일", "드럼", "dkfud2121@naver.com", Level.BASIC,
+            MIN_LOGCOUNT_FOR_SILVER - 1, 0),
+        new User("Justice", "김정수", "키보드", "dkfud2121@naver.com", Level.BASIC,
+            MIN_LOGCOUNT_FOR_SILVER, 0),
+        new User("Gaon", "곽지석", "리드기타", "dkfud2121@naver.com", Level.SILVER, 60,
+            MIN_RECCOMEND_FOR_GOLD - 1),
+        new User("Junhan", "한형준", "기타", "dkfud2121@naver.com", Level.SILVER, 60,
+            MIN_RECCOMEND_FOR_GOLD),
+        new User("O.de", "오승민", "신스", "dkfud2121@naver.com", Level.GOLD, 100, Integer.MAX_VALUE),
+        new User("Juyeon", "이주연", "베이스", "dkfud2121@naver.com", Level.GOLD, 100, 100)
     );
   }
 
   @Test
-  public void bean(){
+  public void bean() {
     Assertions.assertNotNull(this.userService);
     Assertions.assertNotNull(this.userDao);
   }
@@ -68,7 +76,9 @@ class UserServiceTest {
     userDao.deleteAll();
     Assertions.assertNotNull(this.userDao);
 
-    for (User user: users) userDao.add(user);
+    for (User user : users) {
+      userDao.add(user);
+    }
 
     userService.setTransactionManager(transactionManager);
     userService.upgradeLevels();
@@ -80,17 +90,17 @@ class UserServiceTest {
     checkLevelUpgrade(users.get(5), false);
   }
 
-  private void checkLevelUpgrade(User user, boolean upgraded){
+  private void checkLevelUpgrade(User user, boolean upgraded) {
     User userUpdate = userDao.get(user.getId());
-    if (upgraded){
+    if (upgraded) {
       Assertions.assertEquals(user.getLevel().nextLevel(), userUpdate.getLevel());
-    }else{
+    } else {
       Assertions.assertEquals(user.getLevel(), userUpdate.getLevel());
     }
   }
 
   @Test
-  public void add(){
+  public void add() {
     userDao.deleteAll();
 
     User userWithLevel = users.get(4);
@@ -108,22 +118,26 @@ class UserServiceTest {
   }
 
   @Test
-  public void upgradeAllOrNothing() throws Exception{
-      UserService testUserService = new TestUserService(users.get(3).getId());
-      testUserService.setUserDao(this.userDao);
-      testUserService.setTransactionManager(transactionManager);
-      testUserService.setUserLevelUpgradePolicy(this.policy);
-      userDao.deleteAll();
-      for(User user: users) userDao.add(user);
+  public void upgradeAllOrNothing() throws Exception {
+    UserService testUserService = new TestUserService(users.get(3).getId());
+    testUserService.setUserDao(this.userDao);
+    testUserService.setTransactionManager(transactionManager);
+    testUserService.setUserLevelUpgradePolicy(this.policy);
+    testUserService.setMailSender(mailSender);
+    userDao.deleteAll();
+    for (User user : users) {
+      userDao.add(user);
+    }
 
-      try{
-        testUserService.upgradeLevels();
-        fail("TestUserServiceException expected");
-      } catch(TestUserServiceException e){
+    try {
+      testUserService.upgradeLevels();
+      fail("TestUserServiceException expected");
+    } catch (TestUserServiceException e) {
 
-      }
+    }
 
-      checkLevelUpgrade(users.get(1), false);
+    checkLevelUpgrade(users.get(1), false);
+
   }
 
   static class TestUserService extends UserService {
@@ -142,7 +156,7 @@ class UserServiceTest {
     }
   }
 
-  static class TestUserServiceException extends RuntimeException{
+  static class TestUserServiceException extends RuntimeException {
 
   }
 }

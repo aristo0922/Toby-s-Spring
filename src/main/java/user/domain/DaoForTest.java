@@ -1,6 +1,7 @@
 package user.domain;
 
 import javax.sql.DataSource;
+import mail.DummyMailSender;
 import mail.JavaMailSenderImpl;
 import mail.MailMessage;
 import mail.MailSender;
@@ -63,7 +64,7 @@ public class DaoForTest {
 
   @Bean
   public MailSender mailSender(String host){
-    return new JavaMailSenderImpl(host);
+    return new DummyMailSender();
   }
 
   @Bean
