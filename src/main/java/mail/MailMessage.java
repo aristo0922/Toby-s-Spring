@@ -5,4 +5,5 @@ public interface MailMessage {
   void setFrom(String from);
   void setSubject(String subject);
   void setText(String text);
+  String getTo();
 }

@@ -5,10 +5,13 @@ import static user.service.UserService.MIN_LOGCOUNT_FOR_SILVER;
 import static user.service.UserService.MIN_RECCOMEND_FOR_GOLD;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.sql.DataSource;
+import mail.MailMessage;
 import mail.MailSender;
+import mail.SimpleMailMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
@@ -81,13 +84,20 @@ class UserServiceTest {
     }
 
     userService.setTransactionManager(transactionManager);
+
+    MockMailSender mockMailSender = new MockMailSender();
+    userService.setMailSender(mockMailSender);
     userService.upgradeLevels();
+
     checkLevelUpgrade(users.get(0), false);
     checkLevelUpgrade(users.get(1), true);
     checkLevelUpgrade(users.get(2), false);
     checkLevelUpgrade(users.get(3), true);
     checkLevelUpgrade(users.get(4), false);
     checkLevelUpgrade(users.get(5), false);
+
+    List<String> request = mockMailSender.getRequests();
+    Assertions.assertEquals(2, request.size());
   }
 
   private void checkLevelUpgrade(User user, boolean upgraded) {
@@ -157,6 +167,31 @@ class UserServiceTest {
   }
 
   static class TestUserServiceException extends RuntimeException {
+
+  }
+
+  static class MockMailSender implements MailSender{
+    private List<String> requests = new ArrayList<String>();
+
+    public List<String> getRequests(){
+      return requests;
+    }
+
+    public void send(SimpleMailMessage mailMessage) throws MailException{
+      requests.add(mailMessage.getTo());
+    }
+
+    public void send(SimpleMailMessage[] mailMessage) throws MailException{
+
+    }
+
+    @Override
+    public void send(MailMessage message) {
+      requests.add(message.getTo());
+    }
+  }
+
+  private static class MailException extends Exception {
 
   }
 }
