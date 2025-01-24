@@ -13,7 +13,9 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionManager;
 import user.domain.connectionMaker.ConnectionMaker;
 import user.domain.connectionMaker.DConnectionMaker;
+import user.service.UserService;
 import user.service.UserServiceImpl;
+import user.service.UserServiceTx;
 
 @Configuration
 public class DaoForTest {
@@ -47,22 +49,30 @@ public class DaoForTest {
   }
 
   @Bean
-  public TransactionManager transactionManager(){
+  public PlatformTransactionManager transactionManager(){
     PlatformTransactionManager transactionManager = new DataSourceTransactionManager(dataSource());
     return transactionManager;
   }
 
   @Bean
-  public UserServiceImpl userService(){
-    UserServiceImpl userService = new UserServiceImpl();
-    userService.setUserDao(userDao());
-    userService.setUserLevelUpgradePolicy(policy());
-    userService.setMailSender(mailSender("mail.server.com"));
+  public UserServiceTx userService(){
+    UserServiceTx userService = new UserServiceTx();
+    userService.setTransactionManager(transactionManager());
+    userService.setUserService(userServiceImpl());
     return userService;
   }
 
   @Bean
-  public MailSender mailSender(String host){
+  public UserServiceImpl userServiceImpl(){
+    UserServiceImpl userService = new UserServiceImpl();
+    userService.setUserDao(userDao());
+    userService.setMailSender(mailSender());
+    userService.setUserLevelUpgradePolicy(policy());
+    return userService;
+  }
+
+  @Bean
+  public MailSender mailSender(){
     return new DummyMailSender();
   }
 

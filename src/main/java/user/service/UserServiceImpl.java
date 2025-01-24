@@ -1,14 +1,10 @@
 package user.service;
 
-import java.sql.SQLException;
 import java.util.List;
 import mail.MailSender;
 import mail.SimpleMailMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 import user.domain.Level;
 import user.domain.User;
 import user.domain.UserDao;
@@ -18,7 +14,6 @@ import user.domain.UserLevelUpgradePolicy;
 public class UserServiceImpl implements UserService {
 
   UserDao userDao;
-  private PlatformTransactionManager transactionManager;
   public static final int MIN_LOGCOUNT_FOR_SILVER = 50;
   public static final int MIN_RECCOMEND_FOR_GOLD = 50;
   private UserLevelUpgradePolicy policy;
@@ -26,10 +21,6 @@ public class UserServiceImpl implements UserService {
 
   public void setMailSender(MailSender mailSender){
     this.mailSender = mailSender;
-  }
-
-  public void setTransactionManager(PlatformTransactionManager transactionManager) {
-    this.transactionManager = transactionManager;
   }
 
   @Autowired
