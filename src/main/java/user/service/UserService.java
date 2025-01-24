@@ -44,20 +44,27 @@ public class UserService {
   }
 
   public void upgradeLevels() throws SQLException {
+    //트랜잭션 경계 설정
     TransactionStatus status = this.transactionManager.getTransaction(
         new DefaultTransactionDefinition());
 
     try {
-      List<User> users = userDao.getAll();
-      for (User user : users) {
-        if (policy.canUpgradeLevel(user)) {
-          upgradeLevel(user);
-        }
-      }
+      upgradeLevelsInternal();
+      //트랜잭션 경계 설정
       this.transactionManager.commit(status);
     } catch (RuntimeException e) {
       this.transactionManager.rollback(status);
       throw e;
+    }
+  }
+
+  private void upgradeLevelsInternal(){
+    // 비즈니스 로직
+    List<User> users = userDao.getAll();
+    for (User user : users) {
+      if (policy.canUpgradeLevel(user)) {
+        upgradeLevel(user);
+      }
     }
   }
 
