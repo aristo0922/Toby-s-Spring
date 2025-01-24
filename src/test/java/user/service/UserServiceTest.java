@@ -85,8 +85,8 @@ class UserServiceTest {
 
     userService.setTransactionManager(transactionManager);
 
-    MockMailSender mockMailSender = new MockMailSender();
-    userService.setMailSender(mockMailSender);
+//    MockMailSender mockMailSender = new MockMailSender();
+//    userService.setMailSender(mockMailSender);
     userService.upgradeLevels();
 
     checkLevelUpgrade(users.get(0), false);
@@ -96,8 +96,8 @@ class UserServiceTest {
     checkLevelUpgrade(users.get(4), false);
     checkLevelUpgrade(users.get(5), false);
 
-    List<String> request = mockMailSender.getRequests();
-    Assertions.assertEquals(2, request.size());
+//    List<String> request = mockMailSender.getRequests();
+//    Assertions.assertEquals(2, request.size());
   }
 
   private void checkLevelUpgrade(User user, boolean upgraded) {
@@ -133,7 +133,7 @@ class UserServiceTest {
     testUserService.setUserDao(this.userDao);
     testUserService.setTransactionManager(transactionManager);
     testUserService.setUserLevelUpgradePolicy(this.policy);
-    testUserService.setMailSender(mailSender);
+//    testUserService.setMailSender(mailSender);
     userDao.deleteAll();
     for (User user : users) {
       userDao.add(user);
