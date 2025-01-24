@@ -2,7 +2,6 @@ package user.domain;
 
 import javax.sql.DataSource;
 import mail.DummyMailSender;
-import mail.JavaMailSenderImpl;
 import mail.MailMessage;
 import mail.MailSender;
 import mail.SimpleMailMessage;
@@ -14,7 +13,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionManager;
 import user.domain.connectionMaker.ConnectionMaker;
 import user.domain.connectionMaker.DConnectionMaker;
-import user.service.UserService;
+import user.service.UserServiceImpl;
 
 @Configuration
 public class DaoForTest {
@@ -54,8 +53,8 @@ public class DaoForTest {
   }
 
   @Bean
-  public UserService userService(){
-    UserService userService = new UserService();
+  public UserServiceImpl userService(){
+    UserServiceImpl userService = new UserServiceImpl();
     userService.setUserDao(userDao());
     userService.setUserLevelUpgradePolicy(policy());
     userService.setMailSender(mailSender("mail.server.com"));

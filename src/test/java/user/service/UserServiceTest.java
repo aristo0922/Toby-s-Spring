@@ -1,8 +1,8 @@
 package user.service;
 
 import static org.junit.jupiter.api.Assertions.fail;
-import static user.service.UserService.MIN_LOGCOUNT_FOR_SILVER;
-import static user.service.UserService.MIN_RECCOMEND_FOR_GOLD;
+import static user.service.UserServiceImpl.MIN_LOGCOUNT_FOR_SILVER;
+import static user.service.UserServiceImpl.MIN_RECCOMEND_FOR_GOLD;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ class UserServiceTest {
   @Autowired
   private UserDao userDao;
   @Autowired
-  UserService userService;
+  UserServiceImpl userService;
 
   @Autowired
   DataSource dataSource;
@@ -129,7 +129,7 @@ class UserServiceTest {
 
   @Test
   public void upgradeAllOrNothing() throws Exception {
-    UserService testUserService = new TestUserService(users.get(3).getId());
+    UserServiceImpl testUserService = new TestUserService(users.get(3).getId());
     testUserService.setUserDao(this.userDao);
     testUserService.setTransactionManager(transactionManager);
     testUserService.setUserLevelUpgradePolicy(this.policy);
@@ -150,7 +150,7 @@ class UserServiceTest {
 
   }
 
-  static class TestUserService extends UserService {
+  static class TestUserService extends UserServiceImpl {
 
     private String id;
 
