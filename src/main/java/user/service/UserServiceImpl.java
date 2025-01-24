@@ -45,7 +45,6 @@ public class UserServiceImpl implements UserService {
   protected void upgradeLevel(User user) {
     policy.upgradeLevel(user);
     userDao.update(user);
-//    sendUpgradeEmail(user);
   }
 
   private void sendUpgradeEmail(User user){

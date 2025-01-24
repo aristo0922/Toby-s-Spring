@@ -10,10 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionManager;
 import user.domain.connectionMaker.ConnectionMaker;
 import user.domain.connectionMaker.DConnectionMaker;
-import user.service.UserService;
 import user.service.UserServiceImpl;
 import user.service.UserServiceTx;
 
