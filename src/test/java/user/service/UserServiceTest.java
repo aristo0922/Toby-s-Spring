@@ -183,4 +183,48 @@ class UserServiceTest {
   private static class MailException extends Exception {
 
   }
+
+  static class MockUserDao implements UserDao{
+
+    private List<User> users;
+    private List<User> updated = new ArrayList();
+
+    private MockUserDao(List<User> users){
+      this.users = users;
+    }
+
+    public List<User> getUpdated(){
+      return this.updated;
+    }
+
+    @Override
+    public List<User> getAll(){
+      return this.users;
+    }
+
+    @Override
+    public void update(User user) {
+      updated.add(user);
+    }
+
+    @Override
+    public void add(User user) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public User get(String id) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void deleteAll() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public int getCount() {
+      throw new UnsupportedOperationException();
+    }
+  }
 }
