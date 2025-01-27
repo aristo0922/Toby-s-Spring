@@ -66,25 +66,26 @@ class UserServiceTest {
 
   @Test
   public void upgradeLevels() {
-    userDao.deleteAll();
-    Assertions.assertNotNull(this.userDao);
+    UserServiceImpl userServiceImpl = new UserServiceImpl();
 
-    for (User user : users) {
-      userDao.add(user);
-    }
-
-    userService.setTransactionManager(transactionManager);
+    MockUserDao mockUserDao = new MockUserDao(this.users);
+    userServiceImpl.setUserDao(mockUserDao);
 
     MockMailSender mockMailSender = new MockMailSender();
     userServiceImpl.setMailSender(mockMailSender);
-    userService.upgradeLevels();
+    userServiceImpl.setUserLevelUpgradePolicy(policy);
+    userServiceImpl.upgradeLevels();
 
-    checkLevelUpgrade(users.get(0), false);
-    checkLevelUpgrade(users.get(1), true);
-    checkLevelUpgrade(users.get(2), false);
-    checkLevelUpgrade(users.get(3), true);
-    checkLevelUpgrade(users.get(4), false);
-    checkLevelUpgrade(users.get(5), false);
+    List<User> updated = mockUserDao.getUpdated();
+    Assertions.assertEquals(2, updated.size());
+
+    checkUserAndLevel(updated.get(0), "Justice", Level.SILVER);
+    checkUserAndLevel(updated.get(1), "Junhan", Level.GOLD);
+  }
+
+  private void checkUserAndLevel(User updated, String expectedId, Level expectedLevel){
+    Assertions.assertEquals(expectedId, updated.getId());
+    Assertions.assertEquals(expectedLevel, updated.getLevel());
   }
 
   private void checkLevelUpgrade(User user, boolean upgraded) {
@@ -170,9 +171,6 @@ class UserServiceTest {
       requests.add(mailMessage.getTo());
     }
 
-    public void send(SimpleMailMessage[] mailMessage) throws MailException{
-
-    }
 
     @Override
     public void send(MailMessage message) {
