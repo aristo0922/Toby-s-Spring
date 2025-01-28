@@ -33,7 +33,7 @@
 - [1.4 제어의 역전 IoC](https://ambitious-recess-219.notion.site/1-4-IoC-14675e05e52a807d8c45f5ce40b86e24?pvs=4)
 - [1.5 스프링의 IoC](https://ambitious-recess-219.notion.site/1-5-IoC-14c75e05e52a80208576def853a4cb3e?pvs=4)<br/><br/>
 
-### [2장. 테스트](https://ambitious-recess-219.notion.site/2-15a75e05e52a80b2a653f65034de4819?pvs=4)
+## [2장. 테스트](https://ambitious-recess-219.notion.site/2-15a75e05e52a80b2a653f65034de4819?pvs=4)
 - [JUnit Test 클래스 수행 방식](https://ambitious-recess-219.notion.site/JUnit-15a75e05e52a808a912fcf30eed667de?pvs=4)
 - [2.4.1 테스트를 위한 애플리케이션 컨텍스트 관리](https://ambitious-recess-219.notion.site/2-4-1-15a75e05e52a8006a10be01e972e8237?pvs=4)
 - [2.4.2 DI 와 테스트](https://ambitious-recess-219.notion.site/2-4-2-DI-15a75e05e52a80dcab66d46cd6bfa93a?pvs=4)
@@ -66,5 +66,37 @@
 - [3.4 컨텍스트와 DI](https://ambitious-recess-219.notion.site/3-4-DI-16275e05e52a802dac76f92ba0ca131a?pvs=4)
 - [3.5 템플릿과 콜백](https://ambitious-recess-219.notion.site/3-5-16275e05e52a80719c63f30e85ca7528?pvs=4)
 - [3.6 스프링의 jdbcTemplate](https://ambitious-recess-219.notion.site/3-6-jdbcTemplate-16575e05e52a80adb11ecf10e4a19edd?pvs=4)
+
+
+## [4장. 예외](https://ambitious-recess-219.notion.site/4-16c75e05e52a80078aeadd75ce92a63e?pvs=4)
+
+- [4.1 사라진 SQLException](https://ambitious-recess-219.notion.site/4-1-SQLException-16c75e05e52a8093891de38c8311dcd3?pvs=4)
+- [4.2 예외 전환](https://ambitious-recess-219.notion.site/4-2-16c75e05e52a8028821cc491c4c8e874?pvs=4)
+
+
+## [5장. 서비스 추상화](https://ambitious-recess-219.notion.site/5-16f75e05e52a80628cfbe3465518190f?pvs=4)
+
+> 지금까지 만든 DAO 에 트랜잭션을 적용해보면서 스프링이 어떻게 성격이 비슷한 여러 종류의 기술들을 추상화하고, 일관된 방법으로 사용할 수 있도록 지원하는지 살펴보자
+
+- [5.1 사용자 레벨 관리 기능 추가](https://ambitious-recess-219.notion.site/5-1-16f75e05e52a805481b0f38eaae83130?pvs=4)
+- [5.2 트랜잭션 서비스 추상화](https://ambitious-recess-219.notion.site/5-2-17475e05e52a8053aec0cd5fdd108e53?pvs=4)
+- [5.3 서비스 추상화와 단일 책임 원칙](https://ambitious-recess-219.notion.site/5-3-17b75e05e52a8030a62fd43936cdedfb?pvs=4)
+- [5.4 메일 서비스 추상화](https://ambitious-recess-219.notion.site/5-4-17b75e05e52a80e9a64ec0946250fc59?pvs=4)
+
+
+## [6장. AOP](https://ambitious-recess-219.notion.site/6-AOP-18575e05e52a80f688a9db22132deae6?pvs=4)
+> 서비스 추상화를 통해 근본적인 문제를 해결했던 트랜잭션 경계 설정 기능을 AOP 를 이용해 더 깔끔하고 세련되게 바꿔보자.
+
+- [6.1 트랜잭션 코드의 분리](https://ambitious-recess-219.notion.site/6-1-18575e05e52a802782bbc49349f0df03?pvs=4)
+- [6.2 고립된 단위 테스트](https://ambitious-recess-219.notion.site/6-2-18875e05e52a80518170ddac537ff647?pvs=4)
+
+
+
+
+
+
+<br/>
+<br/>
+<br/>
 
 [full verions - notion](https://ambitious-recess-219.notion.site/14475e05e52a80aaa0e4c3ca67ce5f8d?pvs=4)
