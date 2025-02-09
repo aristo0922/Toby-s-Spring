@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
+import springbook.learningtest.template.factoryBean.Message;
+import springbook.learningtest.template.factoryBean.MessageFactoryBean;
 import user.domain.connectionMaker.ConnectionMaker;
 import user.domain.connectionMaker.DConnectionMaker;
 import user.service.UserServiceImpl;
@@ -23,6 +25,13 @@ public class DaoForTest {
     UserDaoJdbc userDao = new UserDaoJdbc();
     userDao.setDataSource(dataSource());
     return userDao;
+  }
+
+  @Bean
+  public Message message() throws Exception{
+    MessageFactoryBean factoryBean = new MessageFactoryBean();
+
+    return factoryBean.getObject();
   }
 
   @Bean

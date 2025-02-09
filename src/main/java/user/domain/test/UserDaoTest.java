@@ -8,12 +8,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import springbook.learningtest.template.factoryBean.MessageFactoryBean;
+import user.domain.DaoFactory;
 import user.domain.DaoForTest;
 import user.domain.Level;
 import user.domain.User;
@@ -55,6 +58,12 @@ public class UserDaoTest {
     Assertions.assertEquals(user1.getLevel(), user2.getLevel());
     Assertions.assertEquals(user1.getLogin(), user2.getLogin());
     Assertions.assertEquals(user1.getRecommend(), user2.getRecommend());
+  }
+
+  @Test
+  public void getFactoryBean() throws Exception{
+    Object factory = context.getBean("&message");
+    Assertions.assertEquals(MessageFactoryBean.class, factory);
   }
 
   @Test
