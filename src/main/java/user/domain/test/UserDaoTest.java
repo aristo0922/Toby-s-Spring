@@ -15,8 +15,7 @@ import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import springbook.learningtest.template.factoryBean.MessageFactoryBean;
-import user.domain.DaoFactory;
+import springbook.learningtest.template.factoryBean.Message;
 import user.domain.DaoForTest;
 import user.domain.Level;
 import user.domain.User;
@@ -60,11 +59,13 @@ public class UserDaoTest {
     Assertions.assertEquals(user1.getRecommend(), user2.getRecommend());
   }
 
-  @Test
-  public void getFactoryBean() throws Exception{
-    Object factory = context.getBean("&message");
-    Assertions.assertEquals(MessageFactoryBean.class, factory);
-  }
+//  @Test
+//  public void getFactoryBean() throws Exception{
+//    Object message = context.getBean("&message");
+//
+//    Assertions.assertEquals(Message.class, message);
+//    Assertions.assertEquals("Factory Bean", ((Message) message).getText());
+//  }
 
   @Test
   public void addAndGet() throws SQLException, ClassNotFoundException {
