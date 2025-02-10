@@ -14,8 +14,9 @@ import springbook.learningtest.template.factoryBean.Message;
 import springbook.learningtest.template.factoryBean.MessageFactoryBean;
 import user.domain.connectionMaker.ConnectionMaker;
 import user.domain.connectionMaker.DConnectionMaker;
+import user.proxy.TxProxyFactoryBean;
+import user.service.UserService;
 import user.service.UserServiceImpl;
-import user.service.UserServiceTx;
 
 @Configuration
 public class DaoForTest {
@@ -62,10 +63,12 @@ public class DaoForTest {
   }
 
   @Bean
-  public UserServiceTx userService(){
-    UserServiceTx userService = new UserServiceTx();
+  public TxProxyFactoryBean userService(){
+    TxProxyFactoryBean userService = new TxProxyFactoryBean();
     userService.setTransactionManager(transactionManager());
-    userService.setUserService(userServiceImpl());
+    userService.setTarget(userServiceImpl());
+    userService.setPattern("upgradeLevels");
+    userService.setServiceInterface(UserService.class);
     return userService;
   }
 

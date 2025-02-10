@@ -1,26 +1,18 @@
-package user.domain.test;
+package user.domain;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.junit.Before;
-import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import springbook.learningtest.template.factoryBean.Message;
-import user.domain.DaoForTest;
-import user.domain.Level;
-import user.domain.User;
-import user.domain.UserDao;
-import user.domain.UserDaoJdbc;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {DaoForTest.class})
